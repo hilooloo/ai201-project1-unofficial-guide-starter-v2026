@@ -97,7 +97,64 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
       - Would splitting on paragraph breaks keep more thoughts intact than
         splitting on a character count?
     """
-    return fallback_split(documents)
+    import re
+
+    chunks: list[Chunk] = []
+    for doc in documents:
+        raw_paragraphs = [paragraph.strip() for paragraph in doc.text.split("\n\n")]
+        paragraphs: list[str] = []
+        paragraph_index = 0
+        while paragraph_index < len(raw_paragraphs):
+            paragraph = raw_paragraphs[paragraph_index]
+            if not paragraph:
+                paragraph_index += 1
+                continue
+
+            # A short heading is more useful when it stays with the text it
+            # introduces, rather than becoming a context-free chunk.
+            if (
+                len(paragraph) < 80
+                and paragraph_index + 1 < len(raw_paragraphs)
+                and raw_paragraphs[paragraph_index + 1]
+            ):
+                paragraph = paragraph + "\n\n" + raw_paragraphs[paragraph_index + 1]
+                paragraph_index += 1
+            paragraphs.append(paragraph)
+            paragraph_index += 1
+
+        index = 0
+        for paragraph in paragraphs:
+            if len(paragraph) <= 500:
+                pieces = [paragraph]
+            else:
+                sentences = [
+                    sentence.strip()
+                    for sentence in re.split(r"(?<=[.!?])\s+", paragraph)
+                    if sentence.strip()
+                ]
+                pieces = []
+                buffer = ""
+                for sentence in sentences:
+                    if buffer and len(buffer) + 1 + len(sentence) > 450:
+                        pieces.append(buffer)
+                        buffer = sentence
+                    else:
+                        buffer = sentence if not buffer else buffer + " " + sentence
+                if buffer:
+                    pieces.append(buffer)
+
+            for piece in pieces:
+                chunks.append(
+                    Chunk(
+                        text=piece,
+                        source=doc.source,
+                        index=index,
+                        produced_by="chunker.py::split_documents",
+                    )
+                )
+                index += 1
+
+    return chunks
 
 
 def describe(chunks: list[Chunk]) -> str:

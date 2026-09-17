@@ -29,8 +29,8 @@ Jiyoung Kim Torres - campus_life
 
 ## Chunking Strategy
 
-**Chunk size:**
-**Overlap:**
+**Chunk size:** 450
+**Overlap:** 0
 
 <!-- What about YOUR documents made you pick these numbers? Short posts and
      long sectioned guides don't want the same chunking, and "800 seemed
@@ -41,6 +41,10 @@ Jiyoung Kim Torres - campus_life
      more than pretending you got it right first time.
 
      Milestone 3. -->
+
+The starter chunker produced 88 chunks from 88 documents because its fixed 800-character window never divided anything in `campus_life` (where documents average only ~317 characters). Leaving whole multi-topic posts intact produced broad, diluted embeddings. Furthermore, a naive split on double newlines caused short headings (e.g., "On the add/drop deadline") to break off into uninformative fragments.
+
+I implemented a paragraph-oriented chunker that inspects double newlines and automatically merges short header snippets (< 80 characters) into the subsequent paragraph to preserve topical context. For paragraphs exceeding 500 characters, it splits strictly at sentence boundaries (`.`, `?`, `!`) buffering up to 450 characters with zero character overlap. This preserves self-contained thoughts and keeps specific figures, rules, and costs intact.
 
 ## Sample Chunks
 
@@ -53,30 +57,33 @@ Jiyoung Kim Torres - campus_life
 
      Milestone 3. -->
 
-**Chunk 1** — source: `` — produced by: ``
+**Chunk 1** — source: `admin_add_drop_deadline.txt#0` — produced by: `chunker.py::split_documents`
 
-```
-```
+On the add/drop deadline
 
-**Chunk 2** — source: `` — produced by: ``
+You can add a course through the end of the second week. Dropping is a longer window — through the end of week six — but a drop after week two shows as a W on your transcript. Nothing anywhere on the registrar's site says this plainly, and students find out from each other.
 
-```
-```
+**Chunk 2** — source: `course_cs_340_workload.txt#0` — produced by: `chunker.py::split_documents`
 
-**Chunk 3** — source: `` — produced by: ``
+Workload for CS 340 Databases
 
-```
-```
+People keep asking so: 6 hours a week early, 15 in the last three weeks when the project lands. That's real time, not optimistic time.
 
-**Chunk 4** — source: `` — produced by: ``
+**Chunk 3** — source: `course_stat_150_exams.txt#0` — produced by: ``
 
-```
-```
+STAT 150 Applied Statistics — assessment
 
-**Chunk 5** — source: `` — produced by: ``
+Three equally weighted midterms, no final. No curve, but the lowest midterm is dropped.
 
-```
-```
+**Chunk 4** — source: `source: `housing_aldridge_hall.txt#0` — produced by: `chunker.py::split_documents`
+
+Aldridge Hall — what it's actually like
+
+I lived here my sophomore year. Built 1968, renovated 2019. Rooms are doubles with a shared bathroom per floor.
+
+**Chunk 5** — source: `housing_morrow_house_laundry.txt#1` — produced by: `chunker.py::split_documents`
+
+Best time to do laundry here is Tuesday or Wednesday morning. Sunday after 6pm you will wait.
 
 ## Sample Answer
 

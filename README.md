@@ -26,6 +26,7 @@ Jiyoung Kim Torres - campus_life
      this repo.
 
      Milestone 5. -->
+This project is an unofficial retrieval-augmented generation (RAG) guide built on the `campus_life` corpus, which contains 88 student-authored posts covering campus housing, course workloads, exam formats, dining options, and administrative deadlines. The system answers candid student questions—such as late-night dining options, dorm mold conditions, laundry machine fees, and course grading policies—using verified student advice rather than generic catalog descriptions. It indexes documents into sentence-bounded paragraph chunks, filters out-of-scope inquiries using an embedding-distance relevance gate, and grounds its responses strictly within retrieved chunks with cited sources.
 
 ## Chunking Strategy
 
@@ -134,8 +135,9 @@ Source: `housing_morrow_house.txt` (also mentioned in `housing_morrow_house_laun
      Milestone 5. -->
 
 **1.**
-
+When developing the custom chunker in Milestone 3, I prompted GitHub Copilot to write a paragraph-based chunker that would split on double newlines (`\n\n`) and keep chunks under 450 characters. Copilot initially returned a naive split that caused short document titles (such as "On the add/drop deadline" at 25 characters) to become isolated, zero-context chunk fragments. I refined the prompt and code logic to explicitly inspect paragraph lengths and merge any leading heading shorter than 80 characters into the subsequent paragraph before splitting long paragraphs at sentence boundaries.
 **2.**
+During Milestone 4, I used AI to analyze the separation gap between the 5 in-scope questions (distances ranging 0.205–0.494) and the 5 out-of-scope questions (distances ranging 0.760–0.895). The AI suggested evaluating whether the starter's default threshold of 0.60 remained robust against edge cases. Based on this analysis, I confirmed that 0.60 sits comfortably in the ~0.26 margin between both groups, preventing false rejections of specific campus queries while strictly rejecting non-corpus topics before prompt construction.
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never

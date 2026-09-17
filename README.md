@@ -90,12 +90,13 @@ Best time to do laundry here is Tuesday or Wednesday morning. Sunday after 6pm y
 <!-- One complete question and answer, pasted as text, with the source line
      visible. Milestone 4. -->
 
-**Question:**
+**Question:** How much does it cost to do laundry in Morrow House?
 
 **Answer:**
 
-```
-```
+In Morrow House, laundry costs $1.50 for a wash and $1.25 for a dryer, and can be paid with coin or card. 
+
+Source: `housing_morrow_house.txt` (also mentioned in `housing_morrow_house_laundry.txt`).
 
 **My relevance cutoff:**
 
@@ -110,7 +111,16 @@ Best time to do laundry here is Tuesday or Wednesday morning. Sunday after 6pm y
 
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+| How bad is the damp or mold in Morrow House? | Yes | 0.4671 |
+| Who teaches CS 101 and what do students think of them? | Yes | 0.4938 |
+| What is the best place to eat on campus late at night? | Yes | 0.4201 |
+| What should I know about taking exams in STAT 150? | Yes | 0.4692 |
+| How much does it cost to do laundry in Morrow House? | Yes | 0.2045 |
+| Who won the 1994 FIFA World Cup? | No | 0.8506 |
+| How do I replace the alternator on a 2012 Honda Civic? | No | 0.8946 |
+| What is the capital city of Australia? | No | 0.8232 |
+| How does CRISPR-Cas9 gene editing work? | No | 0.8172 |
+| What are the rules of cricket? | No | 0.7599 |
 
 ## How I Used AI
 

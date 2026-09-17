@@ -23,8 +23,7 @@ For at least 4 of my 5 test questions, the retrieved chunks include one that
 contains the answer.
 
 **Why this target:**
-<!-- e.g. "One of my questions is about a topic only two documents mention, so
-     I expect that one to be hard." -->
+One of my test questions covers Morrow House damp issues, which is mentioned in only a single short document in the corpus, so I expect that specific retrieval to be more fragile under default search.
 
 ---
 
@@ -33,8 +32,7 @@ contains the answer.
 Every answer the system produces names at least one source document.
 
 **Why this target:**
-<!-- Why all five and not four? What about your setup makes that achievable —
-     or what would have to go wrong for it not to be? -->
+Attribution is critical for student trust, and the generator prompt strictly enforces citing the source file name for all answers built from retrieved context.
 
 ---
 
@@ -50,8 +48,7 @@ in at least 4 of 5 tries.
      just keep five of them, or the "4 of 5" above has nothing to be 4 of. -->
 
 **Why this target:**
-<!-- What did your distances look like when you set the cutoff in Milestone 4?
-     Was there a clean gap, or did the two groups overlap? -->
+Out-of-scope topics like World Cup winners or engine repair are completely absent from campus documents, but 4 of 5 allows for rare semantic overlap with casual student terms.
 
 ---
 
@@ -69,10 +66,10 @@ in at least 4 of 5 tries.
        - "No chunk is shorter than 200 characters, since anything below that
           in my corpus turned out to be a heading with no content under it." -->
 
-
+At least 4 of 5 sampled chunks read as a complete thought, with no sentence cut in half at either end.
 
 **Why this target:**
-
+In the campus_life corpus, critical facts like pricing and deadlines sit in single sentences; mid-sentence cuts destroy the key details needed for factual retrieval.
 
 
 ---
@@ -87,10 +84,10 @@ in at least 4 of 5 tries.
      present — anything, as long as it names a number or an observable
      outcome. -->
 
-
+For all 5 test questions, the generated response is under 100 words and explicitly includes the expected numerical figure, deadline, or street name.
 
 **Why this target:**
-
+Campus guidance queries require quick, direct answers without unnecessary conversational fluff or hallucinated administrative procedures.
 
 
 ---
